@@ -47,7 +47,7 @@ class ArimaModel:
         model = auto_arima(self.dbReturn, start_p=1, start_q=1,
                            max_p=10, max_q=10, m=1,
                            start_P=0, seasonal=False,
-                           d=1, D=0, trace=True,
+                           d=0, D=0, trace=True,
                            error_action='ignore',
                            suppress_warnings=True,
                            stepwise=True)
