@@ -50,7 +50,7 @@ class ArimaModel:
                            d=0, D=0, trace=True,
                            error_action='ignore',
                            suppress_warnings=True,
-                           stepwise=True)
+                           stepwise=False, max_order=10)
 
         self.new_model = SARIMAX(self.dbReturn, order=model.order)
         self.result = self.new_model.fit(disp=False)
