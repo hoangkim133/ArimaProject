@@ -106,13 +106,16 @@ def getListCoins():
     url = "https://api.pro.coinbase.com/currencies"
     response = requests.get(url).json()
     newcoins = []
+    dct = {}
 
     for i in range(len(response)):
         if response[i]['details']['type'] == 'crypto':
             s = response[i]['id'] + "-USD"
             newcoins.append(s)
+            n = response[i]['name']
+            dct[s] = n
 
     newcoins.sort()
     tup = tuple(newcoins)
 
-    return tup
+    return tup, dct

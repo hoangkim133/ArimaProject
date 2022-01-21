@@ -8,7 +8,7 @@ from io import StringIO
 import sys
 import plotly.express as px
 
-tup = ApiGetData.getListCoins()
+tup, coinname = ApiGetData.getListCoins()
 
 
 def main():
@@ -24,6 +24,8 @@ def main():
     coins = st.sidebar.selectbox("Which coin", (tup))
     period = st.sidebar.selectbox("Choose the period", ("DAY", "1WEEK", "2WEEK", "MONTH"))
 
+    name = "Coin name: " + coinname.get(coins)
+    st.subheader(name)
     data = ApiGetData.getFinalData(coins, period)
     st.dataframe(data)
 
