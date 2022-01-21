@@ -96,9 +96,9 @@ def main():
 
         fig2 = px.line(data, y="close", x=data.index)
         fig2.add_trace(
-            go.Scatter(x=pre.index, y=pre['Price_mean'], line=dict(color="red", dash='dash'), name="forecast"))
-        fig2.add_trace(go.Scatter(x=pre.index, y=pre['Price_upper'], line=dict(color="green"), name="upper", ))
-        fig2.add_trace(go.Scatter(x=pre.index, y=pre['Price_lower'], line=dict(color="green"), name="lower", ))
+            go.Scatter(x=pre.index, y=pre['Price_mean'], line=dict(color="red"), name="forecast"))
+        fig2.add_trace(go.Scatter(x=pre.index, y=pre['Price_upper'], line=dict(color="green", dash='dash'), name="upper", ))
+        fig2.add_trace(go.Scatter(x=pre.index, y=pre['Price_lower'], line=dict(color="green", dash='dash'), name="lower", ))
         st.plotly_chart(fig2)
 
 
