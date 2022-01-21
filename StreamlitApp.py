@@ -12,8 +12,6 @@ tup, coinname = ApiGetData.getListCoins()
 
 
 def main():
-    old_stdout = sys.stdout
-    sys.stdout = mystdout = StringIO()
 
     st.title("CRYPTO PREDICTING USING ARIMA")
     st.subheader("This is Kim Hoàng from UEL")
@@ -85,6 +83,9 @@ def main():
         st.markdown("**_Running the auto_arima can take a while. Please wait!!!_**")
 
         result = model.displaySummary()
+        
+        old_stdout = sys.stdout
+        sys.stdout = mystdout = StringIO()
         print(result.summary())
         sys.stdout = old_stdout
         st.text(mystdout.getvalue())
