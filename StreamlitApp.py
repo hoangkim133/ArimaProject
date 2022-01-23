@@ -22,7 +22,7 @@ def main():
     coins = st.sidebar.selectbox("Which coin", (tup))
     period = st.sidebar.selectbox("Choose the period", ("DAY", "1WEEK", "2WEEK", "MONTH"))
 
-    name = "Coin name: " + coinname.get(coins)
+    name = "Coin: " + coinname.get(coins)
     st.subheader(name)
     data = ApiGetData.getFinalData(coins, period)
     st.dataframe(data)
@@ -80,10 +80,19 @@ def main():
     period = st.slider("Chose period you want to predict", 1, 5, 1)
     if st.button("START PREDICT"):
         st.warning(model.checkData())
+        model.createDataReturn()
+        st.write("Stationality test")
+        warn, ADF, p_value = model.checkStationarity()
+        s1 = "ADF Statistic: " + str(ADF)
+        s2 = "p-value: " + str(p_value)
+        st.text(s1)
+        st.text(s2)
+        st.warning(warn)
+
         st.markdown("**_Running the auto_arima can take a while. Please wait!!!_**")
 
         result = model.displaySummary()
-        
+
         old_stdout = sys.stdout
         sys.stdout = mystdout = StringIO()
         print(result.summary())

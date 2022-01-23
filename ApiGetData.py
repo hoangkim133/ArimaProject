@@ -65,28 +65,27 @@ def getAllData(sym):
 
 
 def getFinalData(sym, period="DAY"):
-
     df_origin = getAllData(sym)
 
-    if period == "1WEEK":
-        df = df_origin.groupby(pd.Grouper(freq='1W'))
-    elif period == "2WEEK":
-        df = df_origin.groupby(pd.Grouper(freq='2W'))
-    elif period == "MONTH":
-        df = df_origin.groupby(pd.Grouper(freq='M'))
-    elif period == "DAY":
-        df = df_origin.groupby(pd.Grouper(freq='D'))
+    if period == "DAY":
+        return df_origin
+    else:
+        if period == "1WEEK":
+            df = df_origin.groupby(pd.Grouper(freq='1W'))
+        elif period == "2WEEK":
+            df = df_origin.groupby(pd.Grouper(freq='2W'))
+        elif period == "MONTH":
+            df = df_origin.groupby(pd.Grouper(freq='M'))
 
-    lst_C = []
+        lst_C = []
+        for i in df:
+            dd = convertData(i)
+            lst_C.append(dd)
 
-    for i in df:
-        dd = convertData(i)
-        lst_C.append(dd)
+        final = pd.concat(lst_C)
+        final = final[::-1]
 
-    final = pd.concat(lst_C)
-    final = final[::-1]
-
-    return final
+        return final
 
 
 def convertData(tup):

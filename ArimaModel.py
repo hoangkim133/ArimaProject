@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from pmdarima import auto_arima
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.stattools import adfuller
 from datetime import timedelta
 
 """
@@ -40,10 +41,22 @@ class ArimaModel:
             warn = "The length of data is oke"
         return warn
 
-    def displaySummary(self):
+    def checkStationarity(self):
+        result = adfuller(self.dbReturn)
+        if result[1] >= 0.05:
+            warn = "P-value > 0.05 => Yield series is non-stationary, the model is not good"
+        else:
+            warn = "P-value < 0.05 => Yield series is stationary"
+
+
+        return warn, result[0], result[1]
+
+    def createDataReturn(self):
         self.dbReturn = pd.DataFrame(np.log(self.data['close'] / self.data['close'].shift(1)))
         self.dbReturn = self.dbReturn.fillna(self.dbReturn.head().mean())
+        return self.dbReturn
 
+    def displaySummary(self):
         model = auto_arima(self.dbReturn, start_p=1, start_q=1,
                            max_p=10, max_q=10, m=1,
                            start_P=0, seasonal=False,
@@ -69,7 +82,6 @@ class ArimaModel:
 
         prediction = fc.predicted_mean
         prediction_ci = fc.conf_int()
-        print("P= ", prediction)
 
         prediction = pd.DataFrame(prediction)
         prediction.index = date_list
